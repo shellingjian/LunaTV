@@ -68,7 +68,7 @@ export interface AdminConfig {
   LiveConfig?: {
     key: string;
     name: string;
-    url: string;  // m3u 地址
+    url: string; // m3u 地址
     ua?: string;
     epg?: string; // 节目单
     isTvBox?: boolean;
@@ -77,96 +77,110 @@ export interface AdminConfig {
     disabled?: boolean;
   }[];
   NetDiskConfig?: {
-    enabled: boolean;                    // 是否启用网盘搜索
-    pansouUrl: string;                   // PanSou服务地址
-    timeout: number;                     // 请求超时时间(秒)
-    enabledCloudTypes: string[];         // 启用的网盘类型
+    enabled: boolean; // 是否启用网盘搜索
+    pansouUrl: string; // PanSou服务地址
+    timeout: number; // 请求超时时间(秒)
+    enabledCloudTypes: string[]; // 启用的网盘类型
   };
   AIRecommendConfig?: {
-    enabled: boolean;                    // 是否启用AI推荐功能
-    apiUrl: string;                      // OpenAI兼容API地址
-    apiKey: string;                      // API密钥
-    model: string;                       // 模型名称
-    temperature: number;                 // 温度参数 0-2
-    maxTokens: number;                   // 最大token数
+    enabled: boolean; // 是否启用AI推荐功能
+    apiUrl: string; // OpenAI兼容API地址
+    apiKey: string; // API密钥
+    model: string; // 模型名称
+    temperature: number; // 温度参数 0-2
+    maxTokens: number; // 最大token数
     // 🔥 智能协调器（Orchestrator）配置
-    enableOrchestrator?: boolean;        // 是否启用智能协调器（意图分析+联网搜索）
-    enableWebSearch?: boolean;           // 是否启用联网搜索
-    tavilyApiKeys?: string[];            // Tavily API Keys（支持多个轮询，1000次/月免费）
+    enableOrchestrator?: boolean; // 是否启用智能协调器（意图分析+联网搜索）
+    enableWebSearch?: boolean; // 是否启用联网搜索
+    tavilyApiKeys?: string[]; // Tavily API Keys（支持多个轮询，1000次/月免费）
   };
   YouTubeConfig?: {
-    enabled: boolean;                    // 是否启用YouTube搜索功能
-    apiKey: string;                      // YouTube Data API v3密钥
-    enableDemo: boolean;                 // 是否启用演示模式
-    maxResults: number;                  // 每页最大搜索结果数
-    enabledRegions: string[];            // 启用的地区代码列表
-    enabledCategories: string[];         // 启用的视频分类列表
+    enabled: boolean; // 是否启用YouTube搜索功能
+    apiKey: string; // YouTube Data API v3密钥
+    enableDemo: boolean; // 是否启用演示模式
+    maxResults: number; // 每页最大搜索结果数
+    enabledRegions: string[]; // 启用的地区代码列表
+    enabledCategories: string[]; // 启用的视频分类列表
   };
   TVBoxSecurityConfig?: {
-    enableAuth: boolean;                 // 是否启用Token验证
-    token: string;                       // 访问Token
-    enableIpWhitelist: boolean;          // 是否启用IP白名单
-    allowedIPs: string[];               // 允许的IP地址列表
-    enableRateLimit: boolean;            // 是否启用频率限制
-    rateLimit: number;                   // 每分钟允许的请求次数
+    enableAuth: boolean; // 是否启用Token验证
+    token: string; // 访问Token
+    enableIpWhitelist: boolean; // 是否启用IP白名单
+    allowedIPs: string[]; // 允许的IP地址列表
+    enableRateLimit: boolean; // 是否启用频率限制
+    rateLimit: number; // 每分钟允许的请求次数
   };
   TVBoxProxyConfig?: {
-    enabled: boolean;                    // 是否为TVBox启用Cloudflare Worker代理
-    proxyUrl: string;                    // Cloudflare Worker代理地址（例如：https://corsapi.smone.workers.dev）
+    enabled: boolean; // 是否为TVBox启用Cloudflare Worker代理
+    proxyUrl: string; // Cloudflare Worker代理地址（例如：https://corsapi.smone.workers.dev）
   };
   VideoProxyConfig?: {
-    enabled: boolean;                    // 是否为普通视频源启用Cloudflare Worker代理
-    proxyUrl: string;                    // Cloudflare Worker代理地址（例如：https://corsapi.smone.workers.dev）
+    enabled: boolean; // 是否为普通视频源启用Cloudflare Worker代理
+    proxyUrl: string; // Cloudflare Worker代理地址（例如：https://corsapi.smone.workers.dev）
   };
   TelegramAuthConfig?: {
-    enabled: boolean;                    // 是否启用Telegram登录
-    botToken: string;                    // Telegram Bot Token
-    botUsername: string;                 // Telegram Bot Username
-    autoRegister: boolean;               // 是否自动注册新用户
+    enabled: boolean; // 是否启用Telegram登录
+    botToken: string; // Telegram Bot Token
+    botUsername: string; // Telegram Bot Username
+    autoRegister: boolean; // 是否自动注册新用户
     buttonSize: 'large' | 'medium' | 'small'; // 按钮大小
-    showAvatar: boolean;                 // 是否显示用户头像
-    requestWriteAccess: boolean;         // 是否请求发送消息权限
+    showAvatar: boolean; // 是否显示用户头像
+    requestWriteAccess: boolean; // 是否请求发送消息权限
   };
   // 旧的单 Provider 配置（保留用于向后兼容）
   OIDCAuthConfig?: {
-    enabled: boolean;                    // 是否启用OIDC登录
-    enableRegistration: boolean;         // 是否启用OIDC注册
-    issuer: string;                      // OIDC Issuer URL (用于自动发现)
-    authorizationEndpoint: string;       // 授权端点
-    tokenEndpoint: string;               // Token端点
-    userInfoEndpoint: string;            // 用户信息端点
-    clientId: string;                    // OIDC Client ID
-    clientSecret: string;                // OIDC Client Secret
-    buttonText: string;                  // OIDC登录按钮文字
-    minTrustLevel: number;               // 最低信任等级（仅LinuxDo网站有效，为0时不判断）
+    enabled: boolean; // 是否启用OIDC登录
+    enableRegistration: boolean; // 是否启用OIDC注册
+    issuer: string; // OIDC Issuer URL (用于自动发现)
+    authorizationEndpoint: string; // 授权端点
+    tokenEndpoint: string; // Token端点
+    userInfoEndpoint: string; // 用户信息端点
+    clientId: string; // OIDC Client ID
+    clientSecret: string; // OIDC Client Secret
+    buttonText: string; // OIDC登录按钮文字
+    minTrustLevel: number; // 最低信任等级（仅LinuxDo网站有效，为0时不判断）
   };
   // 新的多 Provider 配置
   OIDCProviders?: {
-    id: string;                          // Provider ID (google, github, microsoft, linuxdo, custom)
-    name: string;                        // 显示名称
-    enabled: boolean;                    // 是否启用此Provider
-    enableRegistration: boolean;         // 是否启用注册
-    issuer: string;                      // OIDC Issuer URL
-    authorizationEndpoint: string;       // 授权端点
-    tokenEndpoint: string;               // Token端点
-    userInfoEndpoint: string;            // 用户信息端点
-    clientId: string;                    // Client ID
-    clientSecret: string;                // Client Secret
-    buttonText: string;                  // 按钮文字
-    minTrustLevel: number;               // 最低信任等级
+    id: string; // Provider ID (google, github, microsoft, linuxdo, custom)
+    name: string; // 显示名称
+    enabled: boolean; // 是否启用此Provider
+    enableRegistration: boolean; // 是否启用注册
+    issuer: string; // OIDC Issuer URL
+    authorizationEndpoint: string; // 授权端点
+    tokenEndpoint: string; // Token端点
+    userInfoEndpoint: string; // 用户信息端点
+    clientId: string; // Client ID
+    clientSecret: string; // Client Secret
+    buttonText: string; // 按钮文字
+    minTrustLevel: number; // 最低信任等级
   }[];
   ShortDramaConfig?: {
-    primaryApiUrl: string;               // 主API地址
-    alternativeApiUrl: string;           // 备用API地址（私密）
-    enableAlternative: boolean;          // 是否启用备用API
+    primaryApiUrl: string; // 主API地址
+    alternativeApiUrl: string; // 备用API地址（私密）
+    enableAlternative: boolean; // 是否启用备用API
   };
   DownloadConfig?: {
-    enabled: boolean;                    // 是否启用下载功能（全局开关）
+    enabled: boolean; // 是否启用下载功能（全局开关）
   };
   WatchRoomConfig?: {
-    enabled: boolean;                    // 是否启用观影室功能
-    serverUrl: string;                   // 外部观影室服务器地址
-    authKey: string;                     // 观影室服务器认证密钥
+    enabled: boolean; // 是否启用观影室功能
+    serverUrl: string; // 外部观影室服务器地址
+    authKey: string; // 观影室服务器认证密钥
+  };
+  DanmuConfig?: {
+    enabled: boolean; // 是否启用弹幕功能（全局开关）
+    enableThirdParty: boolean; // 是否启用第三方弹幕API
+    enableUserInput: boolean; // 是否启用用户弹幕输入
+  };
+  ACGSearchConfig?: {
+    enabled: boolean; // 是否启用ACG种子搜索功能
+  };
+  PlayerEnhancementConfig?: {
+    enableAnime4K: boolean; // 是否启用Anime4K超分辨率
+  };
+  HomePageConfig?: {
+    enableHeroBanner: boolean; // 是否启用首页英雄横幅（预告片轮播）
   };
 }
 

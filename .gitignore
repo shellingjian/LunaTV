@@ -49,3 +49,10 @@ AGENT.md
 TVBOX_DEV.md
 docker-compose.yml
 package-lock.json
+
+# agent configuration (personal dev setup)
+.agent/
+
+# test files
+test-env.js
+**/test-*.js

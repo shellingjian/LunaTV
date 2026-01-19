@@ -61,6 +61,31 @@ export async function GET(request: NextRequest) {
       }
     }
 
+    // 🔥 性能优化：添加用户统计缓存
+    const CACHE_KEY = `lunatv:user-stats:${authInfo.username}`;
+    const CACHE_TTL = 300; // 5分钟
+
+    // 尝试从缓存读取
+    try {
+      const storage = (db as any).storage;
+      if (storage && typeof storage.get === 'function') {
+        const cached = await storage.get(CACHE_KEY);
+        if (cached) {
+          console.log(`📊 [UserStats] 从缓存返回用户 ${authInfo.username} 的统计数据`);
+          return NextResponse.json(JSON.parse(cached as string), {
+            headers: {
+              'Cache-Control': `public, max-age=${CACHE_TTL}`,
+              'X-Cache': 'HIT'
+            }
+          });
+        }
+      }
+    } catch (cacheError) {
+      console.warn(`📊 [UserStats] 缓存读取失败，重新计算:`, cacheError);
+    }
+
+    console.log(`📊 [UserStats] 缓存未命中，计算用户 ${authInfo.username} 的统计数据...`);
+
     // 获取用户个人统计数据
     const userStats = await db.getUserPlayStat(authInfo.username);
 
@@ -113,7 +138,24 @@ export async function GET(request: NextRequest) {
       lastLoginDate: userStats.lastLoginDate ?? userStats.lastLoginTime ?? 0
     };
 
-    return NextResponse.json(enhancedStats, { status: 200 });
+    // 🔥 性能优化：存入缓存
+    try {
+      const storage = (db as any).storage;
+      if (storage && typeof storage.set === 'function') {
+        await storage.set(CACHE_KEY, JSON.stringify(enhancedStats), 'EX', CACHE_TTL);
+        console.log(`📊 [UserStats] 已缓存用户 ${authInfo.username} 的统计数据 ${CACHE_TTL}秒`);
+      }
+    } catch (cacheError) {
+      console.error(`📊 [UserStats] 缓存存储失败:`, cacheError);
+    }
+
+    return NextResponse.json(enhancedStats, {
+      status: 200,
+      headers: {
+        'Cache-Control': `public, max-age=${CACHE_TTL}`,
+        'X-Cache': 'MISS'
+      }
+    });
   } catch (err) {
     console.error('获取用户个人统计失败:', err);
     return NextResponse.json(
@@ -281,6 +323,17 @@ export async function PUT(request: NextRequest) {
     } catch (saveError) {
       console.error('保存登入统计失败:', saveError);
       // 即使保存失败也返回成功，因为登录本身是成功的
+    }
+
+    // 🔥 性能优化：清空用户统计缓存（因为登录次数变了）
+    try {
+      const storage = (db as any).storage;
+      if (storage && typeof storage.del === 'function') {
+        await storage.del(`lunatv:user-stats:${authInfo.username}`);
+        console.log(`📊 [UserStats] 已清空用户 ${authInfo.username} 的统计缓存`);
+      }
+    } catch (cacheError) {
+      // 缓存清除失败不影响功能
     }
 
     return NextResponse.json({

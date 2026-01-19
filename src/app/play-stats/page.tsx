@@ -539,6 +539,13 @@ const PlayStatsPage: React.FC = () => {
   if (!authInfo) {
     return (
       <PageLayout activePath="/play-stats">
+        {/* 🔥 性能优化：添加加载指示器 */}
+        {loading && (
+          <div className="fixed top-0 left-0 right-0 z-50">
+            <div className="h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 animate-pulse"></div>
+          </div>
+        )}
+        
         <div className='text-center py-12'>
           <div className='inline-flex items-center space-x-2 text-gray-600 dark:text-gray-400'>
             <svg

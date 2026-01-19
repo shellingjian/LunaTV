@@ -51,9 +51,9 @@ jobs:
 
           # Check if this is the first commit or if previous commit exists
           if git rev-parse HEAD~1 >/dev/null 2>&1; then
-            # Use git show to read previous package.json without modifying working tree
-            PREV_PACKAGE=$(git show HEAD~1:package.json 2>/dev/null || echo '{"version":"0.0.0"}')
-            PREVIOUS_VERSION=$(echo "$PREV_PACKAGE" | node -pe "try { JSON.parse(require('fs').readFileSync(0, 'utf-8')).version } catch(e) { '0.0.0' }")
+            # Save previous package.json to a temp file
+            git show HEAD~1:package.json > /tmp/prev-package.json 2>/dev/null || echo '{"version":"0.0.0"}' > /tmp/prev-package.json
+            PREVIOUS_VERSION=$(node -p "try { require('/tmp/prev-package.json').version } catch(e) { '0.0.0' }")
           else
             PREVIOUS_VERSION="0.0.0"
           fi
@@ -137,9 +137,9 @@ jobs:
           echo "current_version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
 
           if git rev-parse HEAD~1 >/dev/null 2>&1; then
-            # Use git show to read previous package.json without modifying working tree
-            PREV_PACKAGE=$(git show HEAD~1:package.json 2>/dev/null || echo '{"version":"0.0.0"}')
-            PREVIOUS_VERSION=$(echo "$PREV_PACKAGE" | node -pe "try { JSON.parse(require('fs').readFileSync(0, 'utf-8')).version } catch(e) { '0.0.0' }")
+            # Save previous package.json to a temp file
+            git show HEAD~1:package.json > /tmp/prev-package.json 2>/dev/null || echo '{"version":"0.0.0"}' > /tmp/prev-package.json
+            PREVIOUS_VERSION=$(node -p "try { require('/tmp/prev-package.json').version } catch(e) { '0.0.0' }")
           else
             PREVIOUS_VERSION="0.0.0"
           fi
